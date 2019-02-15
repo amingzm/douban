@@ -19,6 +19,12 @@ NEWSPIDER_MODULE = 'dou_ban.spiders'
 #USER_AGENT = 'dou_ban (+http://www.yourdomain.com)'
 USER_AGENT = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50'
 
+# mysql
+MYSQL_HOST = 'localhost'
+MYSQL_DBNAME = 'douban'
+MYSQL_USER = 'root'
+MYSQL_PASSWORD = '123456'
+
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
 
@@ -65,9 +71,9 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'dou_ban.pipelines.DouBanPipeline': 300,
-#}
+ITEM_PIPELINES = {
+   'dou_ban.pipelines.DouBanPipeline': 300,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
