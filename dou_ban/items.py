@@ -22,4 +22,5 @@ class DoubanItem(scrapy.Item):
     language = scrapy.Field()
     release_date = scrapy.Field()
     runtime = scrapy.Field()
+    url = scrapy.Field()
     # color = scrapy.Field()

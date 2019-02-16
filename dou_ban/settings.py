@@ -19,6 +19,9 @@ NEWSPIDER_MODULE = 'dou_ban.spiders'
 #USER_AGENT = 'dou_ban (+http://www.yourdomain.com)'
 USER_AGENT = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50'
 
+# 代理IP
+PROXIES = []
+
 # mysql
 MYSQL_HOST = 'localhost'
 MYSQL_DBNAME = 'douban'
@@ -26,7 +29,8 @@ MYSQL_USER = 'root'
 MYSQL_PASSWORD = '123456'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = True
+# 为了爬取豆瓣网站/j的信息要设置成False
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -59,9 +63,9 @@ ROBOTSTXT_OBEY = True
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'dou_ban.middlewares.DouBanDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+   'dou_ban.middlewares.ProxyMiddleware': 543,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
