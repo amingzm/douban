@@ -2,6 +2,7 @@
 # @Time    : 2019/2/14 15:29
 # @Author  : Ming
 import json
+import logging
 import re
 import time
 
@@ -19,20 +20,36 @@ class DoubanSpider(scrapy.Spider):
     base_url_prefix = 'https://movie.douban.com/j/new_search_subjects?sort=U&range=0,10&tags=%E7%94%B5%E5%BD%B1&start='
     base_url_suffix = '&year_range=2018,2018'
 
+    test = 0
+    #
+    # # 代理测试
+    # def start_requests(self):
+    #     url = 'https://movie.douban.com/tag/#/?sort=U&range=0,10&tags=%E7%94%B5%E5%BD%B1,2018'
+    #     for i in range(4):
+    #         yield scrapy.Request(url=url, callback=self.parse, dont_filter=True)
+    #
+    # def parse(self, response):
+    #     if response.text is not None:
+    #         print('返回成功！')
+    #         print()
+
     def parse(self, response):
         urls = []
         start = re.search(r'start=(\d*)', response.url).group(1)
         rs = json.loads(response.text)
-        test = 0
         data = rs.get('data')
-        if len(data) != 0 and test < 1:
-            test += 1
-            yield Request(self.base_url_prefix + str(int(start) + 20) + self.base_url_suffix, callback=self.parse)
+        if len(data) != 0 and self.test < 1:
+            self.test += 1
+            try:
+                yield Request(self.base_url_prefix + str(int(start) + 20) + self.base_url_suffix, callback=self.parse)
+            except Exception as e:
+                logging.error(e)
+                raise e
         for temp in data:
             urls.append(temp.get('url'))
         for url in urls:
             yield Request(url, callback=self.parse_item)
-        # pass
+            time.sleep(0.25)
 
     def parse_item(self, response):
         item = DoubanItem()
@@ -42,10 +59,11 @@ class DoubanSpider(scrapy.Spider):
 
         # item['score'] = one_movie.xpath('.//strong[@class="ll rating_num"]/text()').extract()
         # 从script中获取其余的值
-        json_data = json.loads(selector.xpath('//script[@type="application/ld+json"]/text()').extract()[0].replace('\n', ''))
+        json_data = json.loads(selector.xpath('//script[@type="application/ld+json"]/text()').extract()[0].replace('\n', ''), strict=False)
         item['url'] = str(response.url)
         item['name'] = json_data.get('name')
-        item['also_known'] = text.re(r'又名:(.*)\n')[0]
+        temp = text.re(r'又名:(.*)\n')
+        item['also_known'] = '' if len(temp) == 0 else temp[0]
         item['movie_info'] = json_data.get('description')
         score = json_data.get('aggregateRating').get('ratingValue')
         if score == '':

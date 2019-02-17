@@ -8,6 +8,7 @@
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+import datetime
 
 BOT_NAME = 'dou_ban'
 
@@ -20,7 +21,7 @@ NEWSPIDER_MODULE = 'dou_ban.spiders'
 USER_AGENT = 'Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50'
 
 # 代理IP
-PROXIES = []
+PROXIES = ['110.52.235.57:9999','123.132.232.254:61017','111.177.166.110:9999','123.233.215.211:8118','111.177.190.195:9999','121.232.194.97:9000','221.210.120.153:54402']
 
 # mysql
 MYSQL_HOST = 'localhost'
@@ -32,19 +33,27 @@ MYSQL_PASSWORD = '123456'
 # 为了爬取豆瓣网站/j的信息要设置成False
 ROBOTSTXT_OBEY = False
 
+# to_day = datetime.datetime.now()
+# log_file_path = 'log/scrapy_{}_{}_{}.log'.format(to_day.year, to_day.month, to_day.day)
+#
+# # 日志级别
+# LOG_LEVEL = 'INFO'
+# # 日志路径
+# LOG_FILE = log_file_path
+
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-#DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 0.2
 # The download delay setting will honor only one of:
 #CONCURRENT_REQUESTS_PER_DOMAIN = 16
 #CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
-#COOKIES_ENABLED = False
+COOKIES_ENABLED = False
 
 # Disable Telnet Console (enabled by default)
 #TELNETCONSOLE_ENABLED = False
